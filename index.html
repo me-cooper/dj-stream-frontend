@@ -1,0 +1,223 @@
+<html>
+
+	<style>
+	
+		/* ############################################################################################## */
+		/*                                            General                                             */
+		/* ############################################################################################## */
+		
+		
+		@font-face {
+		  font-family: who_asks_satan;
+		  src: url(fonts/who_asks_satan.ttf);
+		}
+		
+		body{
+			margin: 0;
+			padding: 0;
+
+		}
+		
+		#background-container {
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		  justify-content: center;
+		  background-size: cover;
+		  background-position: center;
+		  background-repeat: no-repeat;
+		  height: 100vh; /* Optional: Wenn der Container die gesamte Bildschirmhöhe einnehmen soll */
+		}
+		
+		h1 {
+			font-family: who_asks_satan;
+			font-size: 10rem;
+			font-weight: normal;
+			color: white;
+			filter: hue-rotate(180deg);
+			margin: 15px auto;
+		}
+		
+		
+		
+		
+		/* ############################################################################################## */
+		/*                                          Audioplayer                                           */
+		/* ############################################################################################## */
+		
+		#player-container{
+			background-color: #fff;
+			border-radius: 10px;
+			padding: 10px 20px;
+		}
+	
+		#player {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #fff;
+		}
+
+		#audioPlayer{
+			display: none;
+		}
+
+		#play-button,
+		#pause-button {
+			width: 30px;
+			height: 30px;
+			cursor: pointer;
+			margin: 0 10px;
+		}
+		
+		#pause-button{
+			display: none;
+		}
+		
+		#song-title{
+			color: white;
+			font-family: Arial;
+			display: block;
+			margin-bottom: 10px;
+		}
+
+	</style>
+
+
+	<!-- ########################################################################################### -->
+	<!--                             Change settings in javascript part!                             -->
+	<!-- ########################################################################################### -->
+
+
+	<div id="background-container">
+	
+		<!-- ########################################################################################### -->
+		<!--                                            Info                                             -->
+		<!-- ########################################################################################### -->
+		<h1 id="title"></h1>
+		<span id="song-title"></span>
+			
+			
+		<!-- ########################################################################################### -->
+		<!--                                           Player                                            -->
+		<!-- ########################################################################################### -->
+		<div id="player-container">
+			<div id="player">
+				<video id="audioPlayer" controls autoplay name="media">
+					<source src="#" type="audio/mpeg">
+				</video>
+				<svg id="play-button" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+					<path d="M8 5v14l11-7z"/>
+					<path d="M0 0h24v24H0z" fill="none"/>
+				</svg>
+				<svg id="pause-button" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+					<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+					<path d="M0 0h24v24H0z" fill="none"/>
+				</svg>
+			</div>
+		</div>	
+		
+	</div>
+	
+	
+	
+	
+	
+	<script>
+		
+		/* ############################################################################################## */
+		/*                                           Stream URL                                           */
+		/* ############################################################################################## */
+		
+		let streamTitle = 'STREAM TITLE HERE';
+		let streamURL = 'https://your-stream-url-here.com';
+		
+		
+		
+		
+		var streamHeading 				= document.getElementById('title');
+			streamHeading.innerHTML 	= streamTitle;
+		
+		
+		/* ############################################################################################## */
+		/*                               Background-Images related settings                               */
+		/* ############################################################################################## */
+
+		let changeImageInterval = 2500;
+		
+		
+		
+		/* ############################################################################################## */
+		/* ---------------------------------------------------------------------------------------------- */
+		/*                                                                                                */
+		/*         All background images must be placed in the './gifs' folder.                           */
+		/*         The images should be named with numbers, starting from number 1.                       */
+		/*         The script loops through all the images. If the end of the list is reached, it         */
+		/*         starts again with image number 1. The images can be changed during runtime.            */
+		/*                                                                                                */
+		/* ---------------------------------------------------------------------------------------------- */
+		/* ############################################################################################## */
+		
+		
+				
+		let counter = 1;
+		function updateImage() {
+		  const backgroundContainer = document.getElementById('background-container');
+		  const imagePath = `gifs/${counter}.gif`;
+		  const image = new Image();
+
+		  image.addEventListener('load', function() {
+			backgroundContainer.style.backgroundImage = `url('${imagePath}')`;
+			counter++;
+		  });
+
+		  image.addEventListener('error', function() {
+			counter = 1;
+		  });
+
+		  image.src = imagePath;
+		}
+
+		updateImage();
+		setInterval(updateImage, changeImageInterval);
+		
+		
+		
+		
+		
+		/* ############################################################################################## */
+		/*                                  Audioplayer related settings                                  */
+		/* ############################################################################################## */
+		
+		
+		var playButton = document.getElementById('play-button');
+		var pauseButton = document.getElementById('pause-button');
+		var audioPlayer = document.getElementById('audioPlayer');
+		var songTitle = document.getElementById('song-title');
+		
+		audioPlayer.src = streamURL;
+
+		playButton.addEventListener('click', function() {
+			pauseButton.style.display = "block";
+			playButton.style.display = "none";
+			audioPlayer.play();
+		});
+
+		pauseButton.addEventListener('click', function() {
+			playButton.style.display = "block";
+			pauseButton.style.display = "none";
+			audioPlayer.pause();
+		});
+
+
+		function updateSongTitle(title) {
+			songTitle.textContent = title;
+		}
+
+
+		//updateSongTitle('Insert Current Title Here');
+	
+		
+	</script>
+</html>
+
