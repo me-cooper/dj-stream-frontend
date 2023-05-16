@@ -130,10 +130,10 @@
 		/* ############################################################################################## */
 		
 		let streamTitle = 'STREAM TITLE HERE';
-		let streamURL = 'https://your-strem-url-here.com';
+		let streamURL = 'https://your-stream-url-here.com';
+
 		
-		
-		
+	
 		
 		var streamHeading 				= document.getElementById('title');
 			streamHeading.innerHTML 	= streamTitle;
@@ -215,7 +215,34 @@
 		}
 
 
-		//updateSongTitle('Insert Current Title Here');
+
+		/* ############################################################################################## */
+		/*                                       Check current song                                       */
+		/* ############################################################################################## */
+
+
+		async function loadSongTitle() {
+			try {
+				const response = await fetch('currentsong.json');
+				const data = await response.json();
+				const title = data.song;
+				
+				updateSongTitle(title);
+							
+			} catch (error) {
+				console.log('Failed to load json file', error);
+			}
+		}
+
+		async function runInterval() {
+			while (true) {
+				await loadSongTitle();
+				await new Promise(resolve => setTimeout(resolve, 15000));
+			}
+		}
+
+		runInterval();
+		
 	
 		
 	</script>
